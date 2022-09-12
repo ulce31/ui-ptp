@@ -1,12 +1,10 @@
 import { ColorModeScript } from '@chakra-ui/react';
 import React, { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
-import { App } from './App';
-import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
-import Session from 'supertokens-auth-react';
 import { ChakraProvider } from '@chakra-ui/react';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
+import { App } from './App';
 
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
