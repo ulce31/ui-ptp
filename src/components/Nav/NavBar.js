@@ -8,8 +8,11 @@ import {
   IconButton,
   useBreakpointValue,
   useColorModeValue,
+  Select,
 } from '@chakra-ui/react';
+
 import * as React from 'react';
+import { signOut } from 'supertokens-auth-react/recipe/session';
 import { FiMenu } from 'react-icons/fi';
 import { Logo } from './Logo';
 
@@ -18,6 +21,10 @@ export const NavBar = () => {
     base: false,
     lg: true,
   });
+  const logOut = async () => {
+    await signOut();
+    window.location.href = '/';
+  };
   return (
     <Box
       as="section"
@@ -42,13 +49,21 @@ export const NavBar = () => {
             {isDesktop ? (
               <Flex justify="space-between" flex="1">
                 <ButtonGroup variant="link" spacing="8">
-                  {['Product', 'Pricing', 'Resources', 'Support'].map(item => (
-                    <Button key={item}>{item}</Button>
-                  ))}
+                  {['Exercises', 'Sessions', 'Programs', 'Stats 👨‍🔬'].map(
+                    item => (
+                      <Button key={item}>{item}</Button>
+                    )
+                  )}
                 </ButtonGroup>
-                <HStack spacing="3">
-                  <Button variant="ghost">Sign in</Button>
-                  <Button variant="primary">Sign up</Button>
+                <HStack spacing="1">
+                  <Select size="sm">
+                    <option value="athlete">Athlete</option>
+                    <option value="coach">Coach</option>
+                    <option value="admin">Admin</option>
+                  </Select>
+                  <Button variant="primary" onClick={logOut}>
+                    Log out
+                  </Button>
                 </HStack>
               </Flex>
             ) : (
