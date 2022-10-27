@@ -14,7 +14,7 @@ import {
 import * as React from 'react';
 import { signOut } from 'supertokens-auth-react/recipe/session';
 import { FiMenu } from 'react-icons/fi';
-import { Logo } from './Logo';
+import { Logo } from '../../Logo';
 
 export const NavBar = () => {
   const isDesktop = useBreakpointValue({
@@ -25,6 +25,7 @@ export const NavBar = () => {
     await signOut();
     window.location.href = '/';
   };
+
   return (
     <Box
       as="section"

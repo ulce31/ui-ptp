@@ -5,11 +5,14 @@ import { ChakraProvider } from '@chakra-ui/react';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
 import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
+import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
 import Session from 'supertokens-auth-react/recipe/session';
 import { App } from './App';
+import router from './router';
 
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
+
 SuperTokens.init({
   appInfo: {
     // learn more about this on https://supertokens.com/docs/session/appinfo
@@ -26,7 +29,7 @@ root.render(
     <ChakraProvider>
       <ColorModeScript />
       <SuperTokensWrapper>
-        <App />
+        <RouterProvider router={router} />
       </SuperTokensWrapper>
     </ChakraProvider>
   </StrictMode>
