@@ -4,9 +4,9 @@ import * as ReactDOM from 'react-dom/client';
 import { ChakraProvider } from '@chakra-ui/react';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
-import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
+import SuperTokens, { SuperTokensWrapper } from 'supertokens-web-js';
 import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
-import Session from 'supertokens-auth-react/recipe/session';
+import Session from 'supertokens-web-js/recipe/session';
 
 import router from './router';
 
@@ -18,7 +18,6 @@ SuperTokens.init({
     apiDomain: 'http://localhost:3000',
     websiteDomain: 'http://localhost:3001',
     apiBasePath: '/',
-    websiteBasePath: '/',
   },
   recipeList: [Session.init()],
 });
@@ -27,9 +26,7 @@ root.render(
   <StrictMode>
     <ChakraProvider>
       <ColorModeScript />
-      <SuperTokensWrapper>
-        <RouterProvider router={router} />
-      </SuperTokensWrapper>
+      <RouterProvider router={router} />
     </ChakraProvider>
   </StrictMode>
 );

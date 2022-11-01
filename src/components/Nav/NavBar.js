@@ -12,9 +12,10 @@ import {
 } from '@chakra-ui/react';
 
 import * as React from 'react';
-import { signOut } from 'supertokens-auth-react/recipe/session';
+import { signOut } from 'supertokens-web-js/recipe/session';
 import { FiMenu } from 'react-icons/fi';
 import { Logo } from '../../Logo';
+import { redirect } from 'react-router-dom';
 
 export const NavBar = () => {
   const isDesktop = useBreakpointValue({
@@ -23,7 +24,7 @@ export const NavBar = () => {
   });
   const logOut = async () => {
     await signOut();
-    window.location.href = '/';
+    redirect('/');
   };
 
   return (

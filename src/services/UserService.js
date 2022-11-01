@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Session from 'supertokens-auth-react/recipe/session';
+import Session from 'supertokens-web-js/recipe/session';
 Session.addAxiosInterceptors(axios);
 
 async function login({ email, password }) {
