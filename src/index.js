@@ -7,12 +7,10 @@ import * as serviceWorker from './serviceWorker';
 import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
 import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
 import Session from 'supertokens-auth-react/recipe/session';
-import { App } from './App';
+
 import router from './router';
 
 const container = document.getElementById('root');
-const root = ReactDOM.createRoot(container);
-
 SuperTokens.init({
   appInfo: {
     // learn more about this on https://supertokens.com/docs/session/appinfo
@@ -24,6 +22,7 @@ SuperTokens.init({
   },
   recipeList: [Session.init()],
 });
+const root = ReactDOM.createRoot(container);
 root.render(
   <StrictMode>
     <ChakraProvider>

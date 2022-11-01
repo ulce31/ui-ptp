@@ -38,7 +38,7 @@ export const PasswordField = React.forwardRef((props, ref) => {
             onClick={onClickReveal}
           />
         </InputRightElement>
-        <Input
+        <input
           id="password"
           ref={mergeRef}
           name="password"

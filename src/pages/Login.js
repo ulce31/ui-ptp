@@ -12,29 +12,38 @@ import {
   Text,
   useBreakpointValue,
   useColorModeValue,
+  Center,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
 import { Logo } from '../Logo';
 import { PasswordField } from '../components/PasswordField';
 import UserService from '../services/UserService';
+import { Form, redirect } from 'react-router-dom';
+
+export async function action({ request, params }) {
+  try {
+    const formData = await request.formData();
+    const formFields = Object.fromEntries(formData);
+    const { email, password } = formFields;
+    let logged = await UserService.login({ email, password });
+    console.log('logged', logged);
+    if (logged.status === 200) {
+      return redirect('/dashboard');
+    } else {
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 export const Login = () => {
-  let [email, setEmail] = useState();
-  let [password, setPassword] = useState();
-  let [loginError, setLoginError] = useState();
+  /*  
+  Think about error management (UI)
+  Action need to communicate to 👇
+  let [loginError, setLoginError] = useState(); 
+  */
 
-  let signIn = async () => {
-    try {
-      let logged = UserService.login({ email, password });
-      if (logged) {
-        console.log('connected');
-        window.location.href = '/dashboard';
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <Container
       maxW="lg"
@@ -49,7 +58,10 @@ export const Login = () => {
     >
       <Stack spacing="8">
         <Stack spacing="6">
-          <Logo />
+          <Center>
+            <Logo />
+          </Center>
+
           <Stack
             spacing={{
               base: '2',
@@ -66,12 +78,13 @@ export const Login = () => {
               Welcome to PTP <br />
               Log in to your account
             </Heading>
-            <HStack spacing="1" justify="center">
+            {/*             <HStack spacing="1" justify="center">
               <Text color="muted">Don't have an account?</Text>
-              <Button variant="link" colorScheme="blue" onClick={signIn}>
+              
+              <Button variant="link" colorScheme="blue">
                 Sign up
               </Button>
-            </HStack>
+            </HStack> */}
           </Stack>
         </Stack>
         <Box
@@ -96,34 +109,40 @@ export const Login = () => {
             sm: 'xl',
           }}
         >
-          <Stack spacing="6">
-            <Stack spacing="5">
-              <FormControl>
-                <FormLabel htmlFor="email">Email</FormLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  onChange={e => setEmail(e.target.value)}
-                  value={email}
-                />
-              </FormControl>
-              <PasswordField
-                onChange={e => setPassword(e.target.value)}
-                value={password}
-              />
-            </Stack>
-            <HStack justify="space-between">
-              <Checkbox defaultChecked>Remember me</Checkbox>
-              <Button variant="link" colorScheme="blue" size="sm">
-                Forgot password?
-              </Button>
-            </HStack>
+          <Form method="post" id="login-form">
             <Stack spacing="6">
-              <Button variant="primary" onClick={signIn}>
-                Sign in
-              </Button>
+              <Stack spacing="5">
+                <FormControl>
+                  <FormLabel htmlFor="email">Email</FormLabel>
+                  <input
+                    placeholder="my.email@address.com"
+                    id="email"
+                    name="email"
+                    type="email"
+                  />
+                </FormControl>
+                <PasswordField placeholder="My secret password 123" />
+              </Stack>
+              <HStack justify="space-between">
+                {/* 
+                  NOT MVP
+                  <Checkbox defaultChecked>Remember me</Checkbox> 
+                */}
+                {/* Not MVP       
+                <Button variant="link" colorScheme="blue" size="sm">
+                  Forgot password?
+                </Button> */}
+              </HStack>
+              <Stack spacing="6">
+                <button
+                  method="submit"
+                  className="bg-gray-300 hover:bg-green-500"
+                >
+                  Sign in
+                </button>
+              </Stack>
             </Stack>
-          </Stack>
+          </Form>
         </Box>
       </Stack>
     </Container>
