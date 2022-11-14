@@ -1,22 +1,16 @@
-import { createBrowserRouter } from 'react-router-dom';
-import { SessionAuth } from 'supertokens-web-js/recipe/session';
-import Dashboard from './pages/Dashboard';
-import { redirect } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
+import Dashboard from './routes/Dashboard';
+import { Gear } from './routes/Dashboard/Gear';
 
-import { Login, action as loginAction } from './pages/Login';
-import Session from 'supertokens-web-js/recipe/session';
+import { Login, action as loginAction } from './routes/Login';
+import { action as logoutAction } from './components/Nav/NavBar';
+import Index from './routes/Index';
+import { Sessions } from './routes/Dashboard/Sessions';
+import { Programs } from './routes/Dashboard/Programs';
+import { Settings } from './routes/Dashboard/Settings';
+import { Stats } from './routes/Dashboard/Stats';
 
-async function doesSessionExist() {
-  if (await Session.doesSessionExist()) {
-    console.log('here');
-    // user is logged in
-    return true;
-  } else {
-    console.log('here');
-    // user has not logged in yet
-    return redirect('/');
-  }
-}
+import { eRoles, SessionContext } from './contexts/SessionContext';
 
 export default createBrowserRouter([
   {
@@ -26,6 +20,22 @@ export default createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: <Dashboard />,
+    element: (
+      <SessionContext.Provider value={eRoles.Athlete}>
+        <Dashboard />
+      </SessionContext.Provider>
+    ),
+    action: logoutAction,
+    children: [
+      {
+        index: true,
+        element: <Index />,
+      },
+      { path: 'exercices', element: <Gear /> },
+      { path: 'sessions', element: <Sessions /> },
+      { path: 'programs', element: <Programs /> },
+      { path: 'statistics', element: <Stats /> },
+      { path: 'settings', element: <Settings /> },
+    ],
   },
 ]);
