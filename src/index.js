@@ -4,23 +4,24 @@ import * as ReactDOM from 'react-dom/client';
 import { ChakraProvider } from '@chakra-ui/react';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
-import SuperTokens, { SuperTokensWrapper } from 'supertokens-web-js';
-import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
+
+import SuperTokens from 'supertokens-web-js';
 import Session from 'supertokens-web-js/recipe/session';
 
 import router from './router';
 
 const container = document.getElementById('root');
+
 SuperTokens.init({
   appInfo: {
-    // learn more about this on https://supertokens.com/docs/session/appinfo
-    appName: 'ptp',
     apiDomain: 'http://localhost:3000',
-    websiteDomain: 'http://localhost:3001',
     apiBasePath: '/',
+    appName: 'ptp',
   },
   recipeList: [Session.init()],
 });
+
 const root = ReactDOM.createRoot(container);
 root.render(
   <StrictMode>

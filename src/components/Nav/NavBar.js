@@ -15,17 +15,17 @@ import * as React from 'react';
 import { signOut } from 'supertokens-web-js/recipe/session';
 import { FiMenu } from 'react-icons/fi';
 import { Logo } from '../../Logo';
-import { redirect } from 'react-router-dom';
+import { Form, Link, redirect } from 'react-router-dom';
 
+export async function action({ request, params }) {
+  await signOut();
+  return redirect('/');
+}
 export const NavBar = () => {
   const isDesktop = useBreakpointValue({
     base: false,
     lg: true,
   });
-  const logOut = async () => {
-    await signOut();
-    redirect('/');
-  };
 
   return (
     <Box
@@ -47,15 +47,23 @@ export const NavBar = () => {
           }}
         >
           <HStack spacing="10" justify="space-between">
-            <Logo />
+            <Link to="/dashboard">
+              <Logo />
+            </Link>
+
             {isDesktop ? (
               <Flex justify="space-between" flex="1">
                 <ButtonGroup variant="link" spacing="8">
-                  {['Exercises', 'Sessions', 'Programs', 'Stats 👨‍🔬'].map(
-                    item => (
-                      <Button key={item}>{item}</Button>
-                    )
-                  )}
+                  {[
+                    { libelle: 'Exercises', path: '/dashboard/exercices' },
+                    { libelle: 'Sessions', path: '/dashboard/sessions' },
+                    { libelle: 'Programs', path: '/dashboard/programs' },
+                    { libelle: 'Stats 👨‍🔬', path: '/dashboard/statistics' },
+                  ].map((item, index) => (
+                    <Link to={item.path} key={index}>
+                      {item.libelle}
+                    </Link>
+                  ))}
                 </ButtonGroup>
                 <HStack spacing="1">
                   <Select size="sm">
@@ -63,9 +71,15 @@ export const NavBar = () => {
                     <option value="coach">Coach</option>
                     <option value="admin">Admin</option>
                   </Select>
-                  <Button variant="primary" onClick={logOut}>
-                    Log out
-                  </Button>
+                  <Form method="post" id="logout-form">
+                    {' '}
+                    <button
+                      method="submit"
+                      className="bg-gray-300 hover:bg-green-500"
+                    >
+                      Logout
+                    </button>
+                  </Form>
                 </HStack>
               </Flex>
             ) : (
